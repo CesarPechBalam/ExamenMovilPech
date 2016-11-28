@@ -37,9 +37,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void Turno(int tiro, int puntos){
         if(tiro == 10) {
+            Toast.makeText(this,"Jugador 1",Toast.LENGTH_LONG).show();
             jugador1 =+ puntos;
         }
         if (tiro == 20){
+            Toast.makeText(this,"Jugador 2",Toast.LENGTH_LONG).show();
             puntos = puntos - jugador1;
             jugador2 =+ puntos;
 
