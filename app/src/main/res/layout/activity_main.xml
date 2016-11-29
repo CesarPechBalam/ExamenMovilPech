@@ -10,6 +10,7 @@
     android:orientation="horizontal"
     tools:context="itchetumal.edu.mx.desapp.holamundo.examenunidadmovil.MainActivity"
     android:id="@+id/layout1"
-    android:background="@drawable/img1">
+    android:background="@drawable/img1"
+    android:weightSum="1">
 
 </LinearLayout>

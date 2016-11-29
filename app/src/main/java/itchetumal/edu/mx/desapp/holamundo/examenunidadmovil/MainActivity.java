@@ -16,9 +16,8 @@ public class MainActivity extends AppCompatActivity {
 
     float circCoordX = 0, circCoordY = 0;
     String mensaje2 = " ", mensaje1 = " ";
-    int Tiro, puntos;
     Path ruta = new Path();
-    int jugador1,jugador2;
+    int NumTiro = 0, x = 1, jugador1, jugador2;
 
     @Override
 
@@ -30,30 +29,33 @@ public class MainActivity extends AppCompatActivity {
         Lienzo vista = new Lienzo(this);
         layout.addView(vista);
     }
-    private String ContarTiros() {
-        Tiro++;
-        return String.valueOf(Tiro);
-    }
 
-    public void Turno(int tiro, int puntos){
-        if(tiro == 10) {
-            Toast.makeText(this,"Jugador 1",Toast.LENGTH_LONG).show();
-            jugador1 =+ puntos;
+    public void Turno(int tiro, int puntos) {
+        int aux = tiro / 2;
+
+        if (aux == x) {
+            jugador1 = jugador1 + puntos;
+            x++;
+        } else {
+            jugador2 = jugador2 + puntos;
         }
-        if (tiro == 20){
-            Toast.makeText(this,"Jugador 2",Toast.LENGTH_LONG).show();
-            puntos = puntos - jugador1;
-            jugador2 =+ puntos;
-
-            if(jugador1 > jugador2){
-                Toast.makeText(this,"Ganador Jugador 1",Toast.LENGTH_LONG).show();
-            }else {
-                Toast.makeText(this,"Ganador Jugador 2",Toast.LENGTH_LONG).show();
+        if (tiro == 20) {
+            if (jugador1 > jugador2) {
+                Toast.makeText(this, "Ganador Jugador 1", Toast.LENGTH_LONG).show();
+            } else if (jugador1 < jugador2) {
+                Toast.makeText(this, "Ganador Jugador 2", Toast.LENGTH_LONG).show();
+            } else if (jugador1 == jugador2) {
+                Toast.makeText(this, "Empate", Toast.LENGTH_LONG).show();
             }
         }
     }
-    class Lienzo extends View {
 
+    private String ContarTiros() {
+        NumTiro++;
+        return String.valueOf(NumTiro);
+    }
+
+    class Lienzo extends View {
         int ancho;
         int alto;
 
@@ -129,20 +131,21 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawText("Tiros: " + mensaje2, 50, 50, pincel);
             canvas.drawText("Puntos jugador 1: "+jugador1,50,150,pincel);
             canvas.drawText("Puntos jugador 2: "+jugador2,50,200,pincel);
-
         }
 
         public boolean onTouchEvent(MotionEvent evento) {
 
             circCoordX = evento.getX();
             circCoordY = evento.getY();
+            int puntos = 0;
 
-            if(Tiro<=19) {
+            if(NumTiro<=19) {
+
                 if (evento.getAction() == MotionEvent.ACTION_DOWN) {
+
                     ruta.moveTo(circCoordX, circCoordY);
                     mensaje1 = "Evento Down ";
                     mensaje2 = ContarTiros();
-
 
                     if (Math.sqrt(Math.pow(circCoordX - (ancho / 2), 2) + Math.pow(circCoordY - (alto / 2), 2)) <= 500) {
                         mensaje1 = "Diste click en el círculo blanco";
@@ -184,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                         mensaje1 = "Diste click en el blanco";
                         puntos = puntos + 1;
                     }
-                    Turno(Tiro, puntos);
+                    Turno(NumTiro, puntos);
                 }
                 this.invalidate();
                 return true;
